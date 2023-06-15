@@ -1,9 +1,29 @@
 import * as React from "react"
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
+import { Link } from "react-router-dom";
 import Header from "./Header";
 
 function Post(props){
+  const deletePost = async (id) => {
+    try {
+      const response = await fetch(`${BASE_URL}/posts/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const result = await response.json();
+      console.log(result);
+      return result
+    } catch (err) {
+      console.error(err);
+    } finally {
+      props.refreshPage()
+    }
+  }
+
     return(
     <div style={{width: "100%", height: "250px", border: "1px solid black"}}>
         <h2>{props.post.title}</h2>
@@ -11,17 +31,25 @@ function Post(props){
         <h3>{props.post.price}</h3>
         <h2>{props.post.author.username}</h2>
         <h3>{props.post.location}</h3>
-        <button></button>
+        {props.post.isAuthor ? <div><button>Edit</button> <button onClick={()=>{deletePost(props.post._id)}}>Delete</button></div> : <button>Send Message</button>}
     </div>
     )
 }
 
 export default function Posts(){
-    const [posts, setPosts] = useState({})
+    const [posts, setPosts] = useState({}) 
     const fetchPosts = async () => {
         try {
-          const response = await fetch(`${BASE_URL}/posts`)
-      
+          let response = ''
+          if (localStorage.getItem('token')){
+            response = await fetch(`${BASE_URL}/posts`, {
+              method: "GET",
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            })
+          } else {response = await fetch(`${BASE_URL}/posts`)}
           const result = await response.json();
           console.log(result);
           setPosts(result) 
@@ -37,10 +65,13 @@ export default function Posts(){
       }, [])
     return(
         <>
-        <Header/>
+          <Header/>
+          <h1>Posts</h1>
+          <input></input>
+          <Link to={"/posts/add"}>(Add Post)</Link>
             {Object.keys(posts).length !== 0 ?
                 posts.data.posts.map((item)=>(
-                    <Post post={item}/>
+                    <Post post={item} refreshPage = {fetchPosts}/>
                 ))
              : "NO POSTS"}
         </>
