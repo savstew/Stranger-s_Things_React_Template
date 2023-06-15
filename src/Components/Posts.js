@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
+import Header from "./Header";
 
 function Post(props){
     return(
@@ -36,6 +37,7 @@ export default function Posts(){
       }, [])
     return(
         <>
+        <Header/>
             {Object.keys(posts).length !== 0 ?
                 posts.data.posts.map((item)=>(
                     <Post post={item}/>
