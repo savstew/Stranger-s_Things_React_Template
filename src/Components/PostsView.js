@@ -91,33 +91,40 @@ export default function PostView(props){
   return(
     <>
       <Header/>
-      <div style={{width: "100%", padding: "10px", border: "1px solid black"}}>
+      <div style={{width: "98%", height: "400px", borderRadius: "5px", boxShadow: "rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px", backgroundColor: "white", margin: "10px", padding: "10px"}}>
           <h2>{post.title}</h2>
+          <hr/>
           <p>{post.description}</p>
           <h3>{post.price}</h3>
           <h2>{post.author.username}</h2>
           <h3>{post.location}</h3>
           { post.isAuthor ? <></> : <hr/>}
           { post.isAuthor ?
-          <div><button onClick={()=>{setShowForm(true)}}>Edit</button> 
-          <button onClick={()=>{deletePost(post._id)}}>Delete</button></div>
-          : 
-          <>
+          <div>
+            <button onClick={()=>{setShowForm(true)}} style={{backgroundColor: "white", color: "#041f64", borderRadius: "5px", border: "1px solid #041f64", width: "100px", height: "35px", marginLeft: "5px", marginTop: "150px"}}>Edit</button> 
+            <button onClick={()=>{deletePost(post._id)}} style={{backgroundColor: "white", color: "#041f64", borderRadius: "5px", border: "1px solid #041f64", width: "100px", height: "35px", marginLeft: "10px"}}>Delete</button>
+          </div>
+            : 
+            <>
             <h2>Message Seller About Listing</h2>
-            <input value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Type here."></input>
-            <button onClick={()=>{postMessage()}}>Send Message</button>
+            <div style={{display: "flex", alignItems: "center"}}>
+              <input value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Type here." style={{width: "300px", height: "50px"}}></input>
+              <button onClick={()=>{postMessage()}} style={{backgroundColor: "white", color: "#041f64", borderRadius: "5px", border: "1px solid #041f64", width: "100px", height: "35px", marginLeft: "10px"}}>
+                Send Message
+              </button>
+            </div>
           </>}
       </div>
     { showForm ? 
-      <div style={{border: "1px solid black"}}>
+      <div style={{width: "98%", height: "200px", borderRadius: "5px", boxShadow: "rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px", backgroundColor: "white", margin: "10px", padding: "10px"}}>
         <h1>Edit Post</h1>
         <form onSubmit={handleSubmit}>
-            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title"></input>
-            <input value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description"></input>
-            <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="Price"></input>
+            <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title" style={{marginRight: "5px"}}></input>
+            <input value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description" style={{marginRight: "5px"}}></input>
+            <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="Price" style={{marginRight: "5px"}}></input>
             <input value={sellLocation} onChange={(event) => setSellLocation(event.target.value)} placeholder="Location"></input>
             <input checked={deliver} onChange={() => setDeliver(!deliver)} type="checkbox" id="deliver"></input>
-            <label for="deliver">Willing to Deliver?</label>
+            <label for="deliver" style={{marginRight: "5px", marginLeft: "5px"}}>Willing to Deliver?</label>
             <button type="submit">Submit</button>
         </form> 
       </div>

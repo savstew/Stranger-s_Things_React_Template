@@ -1,0 +1,9 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background-image: url("/public/cool-background.png");
+    margin: 0;
+    padding: 0;
+}

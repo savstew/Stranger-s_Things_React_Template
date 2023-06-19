@@ -6,14 +6,17 @@ import Header from "./Header";
 
 function Post(props){
     return(
-    <div style={{width: "100%", height: "250px", border: "1px solid black"}}>
-        <h2>{props.post.title}</h2>
+    <div style={{width: "98%", height: "250px", borderRadius: "5px", boxShadow: "rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px", backgroundColor: "white", margin: "10px", padding: "10px"}}>
+        <h2 style={{marginTop: "0px", marginBottom: "5px"}}>{props.post.title}</h2>
+        <hr/>
         <p>{props.post.description}</p>
         <h3>{props.post.price}</h3>
         <h2>{props.post.author.username}</h2>
         <h3>{props.post.location}</h3>
-        {props.post.isAuthor ? <div><Link to = {`/posts/${props.post._id}`} state = {{post: props.post}}>View</Link></div> : 
-        <Link to = {`/posts/${props.post._id}`} state = {{post: props.post}}>Send Message</Link>}
+        {localStorage.getItem('token') ? props.post.isAuthor ? <div><Link to = {`/posts/${props.post._id}`} state = {{post: props.post}}  style={{textDecoration: "none", color: "black", border: "1px solid black", padding: "5px", borderRadius: "5px"}}>
+          View</Link></div> : 
+        <Link to = {`/posts/${props.post._id}`} state = {{post: props.post}} style={{textDecoration: "none", color: "black", border: "1px solid black", padding: "5px", borderRadius: "5px"}}>
+          Send Message</Link> : <></>}
     </div>
     )
 }
@@ -58,9 +61,13 @@ export default function Posts(){
     return(
         <>
           <Header/>
-          <h1>Posts</h1>
-          <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}></input>
-          <Link to={"/posts/add"}>(Add Post)</Link>
+          <h1 style={{textTransform: "uppercase", color: "white", textShadow: "-1px 1px 0 #000", textAlign: "center"}}>Posts</h1>
+          <div style={{marginLeft: "10px"}}>
+          <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} style={{width: "300px", height: "20px"}}></input>
+            {localStorage.getItem('token') ? <Link to={"/posts/add"} style={{backgroundColor: "white", textDecoration: "none", color: "black", border: "1px solid black", marginLeft: "10px", padding: "5px", borderRadius: "5px"}}>
+              Add Post
+            </Link> : <></>}
+          </div>
             {posts.length !== 0 ?
                 postsToDisplay.map((item)=>(
                     <Post post={item} refreshPage = {fetchPosts}/>
